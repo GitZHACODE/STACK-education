@@ -1,0 +1,67 @@
+{
+  "audit": "DPA1 / 25 September 2026",
+  "production": "Restricted staging; existing implementations and recorded limitations",
+  "education": "Independent illustrative field, surface and offset kernel",
+  "features": [
+    [
+      "Access",
+      "Account or password protected staging",
+      "Public browser taster"
+    ],
+    [
+      "Surface exploration",
+      "Existing imported and procedural geometry workflows",
+      "Synthetic wave, saddle and dome samples"
+    ],
+    [
+      "Scalar / vector fields",
+      "Existing research and mesh field methods",
+      "Illustrative slope and direction fields; approximate"
+    ],
+    [
+      "Field mixing / offsets",
+      "Existing design and editing workflows",
+      "Interactive direction blending and normal offsets"
+    ],
+    [
+      "Panel / stack design",
+      "Existing topology, ordering and contact placement",
+      "Surface grid preview only"
+    ],
+    [
+      "Stack optimisation / logistics",
+      "Existing heuristics; original VRP backend not bundled",
+      "Unavailable"
+    ],
+    [
+      "Elastica / robotic cutting",
+      "Existing reduced studies; complete calibrated pipeline not bundled",
+      "Unavailable"
+    ],
+    [
+      "CAD interoperability / exports",
+      "Existing OBJ, project and host workflows",
+      "Synthetic preview PNG only"
+    ],
+    [
+      "Maya",
+      "Current 0.11.0 implementation snapshot",
+      "Educational release coming soon"
+    ],
+    [
+      "Rhino / Grasshopper",
+      "Current 7.3 implementation snapshot",
+      "Educational release coming soon"
+    ],
+    [
+      "Method source / partner assets",
+      "Restricted repository and authenticated distribution",
+      "Independent educational kernel only"
+    ],
+    [
+      "Intended use",
+      "Production staging; validate each workflow before fabrication",
+      "Learning and onboarding; no fabrication decisions"
+    ]
+  ]
+}
