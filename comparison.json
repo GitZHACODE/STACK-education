@@ -1,11 +1,11 @@
 {
   "audit": "DPA1 / 25 September 2026",
-  "production": "Restricted staging; existing implementations and recorded limitations",
+  "production": "Production staging; temporary public access at the user's request",
   "education": "Independent illustrative field, surface and offset kernel",
   "features": [
     [
       "Access",
-      "Account or password protected staging",
+      "Public for now; individual access and licensing planned",
       "Public browser taster"
     ],
     [
@@ -55,7 +55,7 @@
     ],
     [
       "Method source / partner assets",
-      "Restricted repository and authenticated distribution",
+      "Full browser methods; development repositories remain private",
       "Independent educational kernel only"
     ],
     [
