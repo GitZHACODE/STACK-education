@@ -1,4 +1,5 @@
 import {grid} from './kernel.mjs';
+import {draw,initConcepts} from './concepts.mjs';
 const $=id=>document.getElementById(id);
 const options=()=>({kind:$('kind').value,amplitude:+$('amplitude').value,blend:+$('blend').value,offset:+$('offset').value});
 function render(canvas,opts,mode='slope'){
@@ -17,9 +18,10 @@ function update(){const opts=options();for(const id of ['amplitude','blend','off
 for(const id of ['kind','amplitude','blend','offset','display'])$(id).addEventListener('input',update);
 $('reset').addEventListener('click',()=>{for(const [id,value] of Object.entries({kind:'wave',amplitude:1,blend:.5,offset:0,display:'slope'}))$(id).value=value;update()});
 $('save').addEventListener('click',()=>{const a=document.createElement('a');a.download='STACK-educational-approximate-preview.png';a.href=$('study').toDataURL('image/png');a.click()});
-new ResizeObserver(()=>{update();render($('hero-canvas'),{kind:'wave',amplitude:1.4,offset:.1})}).observe($('study'));
+new ResizeObserver(()=>{update();draw($('hero-canvas'),{topic:'stack',preset:'canopy',curvature:1.2,amount:.95,turn:.15})}).observe($('study'));
 fetch('comparison.json').then(r=>{if(!r.ok)throw Error('Comparison unavailable');return r.json()}).then(policy=>{
   const table=document.createElement('table');table.innerHTML='<caption class="small">Feature, functionality and access comparison</caption><thead><tr><th scope="col">Capability</th><th scope="col">Production staging</th><th scope="col">Education</th></tr></thead><tbody></tbody>';
   for(const row of policy.features){const tr=document.createElement('tr');row.forEach((value,i)=>{const cell=document.createElement(i?'td':'th');if(!i)cell.scope='row';cell.textContent=value;tr.append(cell)});table.tBodies[0].append(tr)}$('comparison').append(table);
 }).catch(()=>{$('comparison').textContent='The comparison could not load. Please reload the page.'});
 update();
+initConcepts();

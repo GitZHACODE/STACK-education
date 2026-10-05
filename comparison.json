@@ -1,22 +1,22 @@
 {
   "audit": "DPA1 / 25 September 2026",
   "production": "Production staging; temporary public access at the user's request",
-  "education": "Independent illustrative field, surface and offset kernel",
+  "education": "Independent educational surfaces and seven illustrative research concepts",
   "features": [
     [
       "Access",
       "Public for now; individual access and licensing planned",
-      "Public browser taster"
+      "Public learning site; no sign-in"
     ],
     [
       "Surface exploration",
       "Existing imported and procedural geometry workflows",
-      "Synthetic wave, saddle and dome samples"
+      "Six architectural presets plus the original wave, saddle and dome surface lab"
     ],
     [
       "Scalar / vector fields",
       "Existing research and mesh field methods",
-      "Illustrative slope and direction fields; approximate"
+      "Illustrative flowing patterns and approximate slope / direction fields"
     ],
     [
       "Field mixing / offsets",
@@ -26,22 +26,27 @@
     [
       "Panel / stack design",
       "Existing topology, ordering and contact placement",
-      "Surface grid preview only"
+      "Coloured parts, regular segmentation and preset assembled / stack views; no contact solver"
     ],
     [
       "Stack optimisation / logistics",
       "Existing heuristics; original VRP backend not bundled",
-      "Unavailable"
+      "Animated preset arrangement and concept explanation; no optimiser or routing"
     ],
     [
       "Elastica / robotic cutting",
       "Existing reduced studies; complete calibrated pipeline not bundled",
-      "Unavailable"
+      "Sine-curve sweep and schematic two-arm cutting animation; no equilibrium fitting or robot IK"
     ],
     [
       "CAD interoperability / exports",
       "Existing OBJ, project and host workflows",
-      "Synthetic preview PNG only"
+      "Browser scene PNGs; separate initial desktop learning plugins"
+    ],
+    [
+      "Thickness / mould relationships",
+      "Existing inherited-interface and thickness studies",
+      "Exploded face drawings and schematic thickness; no manufacturing calculation"
     ],
     [
       "Maya",
@@ -61,7 +66,12 @@
     [
       "Intended use",
       "Production staging; validate each workflow before fabrication",
-      "Learning and onboarding; no fabrication decisions"
+      "General-audience learning, architectural studies and research reading; no fabrication decisions"
+    ],
+    [
+      "Reading and research context",
+      "Specialist methods and workflow documentation",
+      "Project overview plus eight curated topic references"
     ]
   ]
 }
