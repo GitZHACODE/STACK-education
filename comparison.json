@@ -1,7 +1,7 @@
 {
   "audit": "DPA1 / 25 September 2026",
   "production": "Production staging; temporary public access at the user's request",
-  "education": "Independent educational surfaces and seven illustrative research concepts",
+  "education": "Public light edition of the original visuals; one ellipse dome, precomputed display scenes and recorded original fabrication views",
   "features": [
     [
       "Access",
@@ -11,67 +11,72 @@
     [
       "Surface exploration",
       "Existing imported and procedural geometry workflows",
-      "Six architectural presets plus the original wave, saddle and dome surface lab"
+      "One original elliptic canopy dome throughout; orbit and zoom computed display geometry"
     ],
     [
       "Scalar / vector fields",
       "Existing research and mesh field methods",
-      "Illustrative flowing patterns and approximate slope / direction fields"
+      "Original computed stacking, invariant-contour, curvature and stress overlays; fixed target"
     ],
     [
       "Field mixing / offsets",
       "Existing design and editing workflows",
-      "Interactive direction blending and normal offsets"
+      "Original recorded field and offset results; no public calculation or parameter editing"
     ],
     [
       "Panel / stack design",
       "Existing topology, ordering and contact placement",
-      "Coloured parts, regular segmentation and preset assembled / stack views; no contact solver"
+      "Original fitted dome and paired casting stacks; recorded result, no editing or contact solver"
     ],
     [
       "Stack optimisation / logistics",
       "Existing heuristics; original VRP backend not bundled",
-      "Animated preset arrangement and concept explanation; no optimiser or routing"
+      "Recorded stacking results and explanation; no optimisation or logistics execution"
     ],
     [
       "Elastica / robotic cutting",
       "Existing reduced studies; complete calibrated pipeline not bundled",
-      "Sine-curve sweep and schematic two-arm cutting animation; no equilibrium fitting or robot IK"
+      "Original fitted elastica sweep and ABB cell simulation as videos; no fitting, CAD, tracks or IK execution"
     ],
     [
       "CAD interoperability / exports",
       "Existing OBJ, project and host workflows",
-      "Browser scene PNGs; separate initial desktop learning plugins"
+      "View inspection and video playback; educational desktop packages; no portal CAD export"
     ],
     [
       "Thickness / mould relationships",
       "Existing inherited-interface and thickness studies",
-      "Exploded face drawings and schematic thickness; no manufacturing calculation"
+      "Original recorded inherited-interface display; no manufacturing calculation"
     ],
     [
       "Maya",
-      "Current 0.11.0 implementation snapshot",
+      "0.12.0 \u00b7 SINTEF seed strips, smooth twisted vault and seams",
       "Education 0.1.0 download; approximate Python methods"
     ],
     [
       "Rhino / Grasshopper",
-      "Current 7.3 implementation snapshot",
+      "7.4 \u00b7 smooth-surface seed strips and twisted vault",
       "Education 0.1.0 download; independent compiled C#"
     ],
     [
       "Method source / partner assets",
       "Full browser methods; development repositories remain private",
-      "Independent educational kernel only"
+      "Original curated graphics and selected display results only; protected solver code and cell CAD omitted"
     ],
     [
       "Intended use",
       "Production staging; validate each workflow before fabrication",
-      "General-audience learning, architectural studies and research reading; no fabrication decisions"
+      "General-audience research learning; simulated and fitted results are identified"
     ],
     [
       "Reading and research context",
       "Specialist methods and workflow documentation",
-      "Project overview plus eight curated topic references"
+      "Original project visuals, eight reading topics and named research contributors"
+    ],
+    [
+      "Connected design / cutter / robotics story",
+      "Specialist design and motion studies; validate calibrated manufacturing separately",
+      "One original elliptic canopy target through design, fitted elastic sections and scaled ABB cell simulation; 30-second guided tour"
     ]
   ]
 }

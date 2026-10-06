@@ -1,27 +1,34 @@
-import {grid} from './kernel.mjs';
-import {draw,initConcepts} from './concepts.mjs';
-const $=id=>document.getElementById(id);
-const options=()=>({kind:$('kind').value,amplitude:+$('amplitude').value,blend:+$('blend').value,offset:+$('offset').value});
-function render(canvas,opts,mode='slope'){
-  const box=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio,2);canvas.width=Math.round(box.width*dpr);canvas.height=Math.round(box.height*dpr);
-  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);const w=box.width,h=box.height,scale=Math.min(w/11,h/7.5);
-  const project=([x,y,z])=>[w*.5+(x-y)*scale*.82,h*.55+(x+y)*scale*.3-z*scale];
-  const g=grid(opts,24);ctx.clearRect(0,0,w,h);
-  for(let i=0;i<24;i++)for(let j=0;j<24;j++){
-    const cells=[g[i][j],g[i+1][j],g[i+1][j+1],g[i][j+1]],points=cells.map(s=>project(s.point)),s=cells.reduce((n,c)=>n+c.slope,0)/4;
-    ctx.beginPath();points.forEach(([x,y],k)=>k?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();
-    ctx.fillStyle=mode==='grid'?'#e5edda':`hsl(${Math.max(32,155-s*85)},${25+s*10}%,${75-s*18}%)`;ctx.fill();ctx.strokeStyle='rgba(43,61,47,.32)';ctx.lineWidth=.55;ctx.stroke();
-    if(mode==='direction'&&i%3===0&&j%3===0){const c=cells[0],a=project(c.point),b=project([c.point[0]+c.direction[0]*.35,c.point[1]+c.direction[1]*.35,c.point[2]]),angle=Math.atan2(b[1]-a[1],b[0]-a[0]);ctx.strokeStyle='#263c2d';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.lineTo(b[0]-5*Math.cos(angle-.5),b[1]-5*Math.sin(angle-.5));ctx.moveTo(...b);ctx.lineTo(b[0]-5*Math.cos(angle+.5),b[1]-5*Math.sin(angle+.5));ctx.stroke();}
-  }
+// Read-only display of precomputed original scenes. No field, nesting, fitting or robot solver.
+const $=s=>document.querySelector(s),cache=new Map(),views=new Map();let route='explore',token=0;
+async function result(name){if(!cache.has(name))cache.set(name,fetch('results/'+name+'.json').then(r=>{if(!r.ok)throw Error('Study display could not load');return r.json();}));return cache.get(name);}
+class Display{
+ constructor(host,data){const T=window.THREE;this.host=host;this.scene=new T.ObjectLoader().parse(data.scene,()=>requestAnimationFrame(()=>this.draw()));this.scene.background=new T.Color('#ffffff');this.camera=new T.ObjectLoader().parse(data.camera);this.camera.up.set(0,0,1);this.renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,2));this.renderer.outputEncoding=T.sRGBEncoding;host.append(this.renderer.domElement);this.renderer.domElement.setAttribute('aria-label','Recorded original 3D study. Drag to orbit, scroll to zoom.');this.renderer.domElement.tabIndex=0;this.controls=new T.OrbitControls(this.camera,this.renderer.domElement);this.controls.target.set(...data.target);this.homePosition=this.camera.position.clone();this.homeTarget=this.controls.target.clone();this.controls.minDistance=.02;this.controls.maxDistance=80;this.controls.addEventListener('change',()=>this.draw());this.resize=new ResizeObserver(()=>this.draw());this.resize.observe(host);this.controls.update();this.draw();}
+ draw(){const w=this.host.clientWidth,h=this.host.clientHeight;if(!w||!h)return;this.camera.aspect=w/h;if(!this.fitted){const T=window.THREE,box=new T.Box3().setFromObject(this.scene),centre=box.getCenter(new T.Vector3()),radius=box.getSize(new T.Vector3()).length()/2,direction=this.homePosition.clone().sub(this.homeTarget).normalize(),half=Math.atan(Math.tan(this.camera.fov*Math.PI/360)*Math.min(1,w/h));this.camera.position.copy(centre).addScaledVector(direction,radius/Math.sin(half)*1.05);this.controls.target.copy(centre);this.homePosition.copy(this.camera.position);this.homeTarget.copy(centre);this.fitted=true;this.controls.update();}this.camera.updateProjectionMatrix();this.renderer.setSize(w,h,false);this.scene.traverse(o=>{if(o.material?.uniforms?.resolution)o.material.uniforms.resolution.value.set(w,h);});this.renderer.render(this.scene,this.camera);}
+ fit(){this.camera.position.copy(this.homePosition);this.controls.target.copy(this.homeTarget);this.controls.update();this.draw();}
+ dispose(){this.resize.disconnect();this.controls.dispose();this.scene.traverse(o=>{o.geometry?.dispose();if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material?.dispose();});this.renderer.dispose();this.renderer.domElement.remove();}
 }
-function update(){const opts=options();for(const id of ['amplitude','blend','offset'])$(id+'-value').value=(+$ (id).value).toFixed(2);render($('study'),opts,$('display').value);$('status').textContent=`${opts.kind} / 576 cells`}
-for(const id of ['kind','amplitude','blend','offset','display'])$(id).addEventListener('input',update);
-$('reset').addEventListener('click',()=>{for(const [id,value] of Object.entries({kind:'wave',amplitude:1,blend:.5,offset:0,display:'slope'}))$(id).value=value;update()});
-$('save').addEventListener('click',()=>{const a=document.createElement('a');a.download='STACK-educational-approximate-preview.png';a.href=$('study').toDataURL('image/png');a.click()});
-new ResizeObserver(()=>{update();draw($('hero-canvas'),{topic:'stack',preset:'canopy',curvature:1.2,amount:.95,turn:.15})}).observe($('study'));
-fetch('comparison.json').then(r=>{if(!r.ok)throw Error('Comparison unavailable');return r.json()}).then(policy=>{
-  const table=document.createElement('table');table.innerHTML='<caption class="small">Feature, functionality and access comparison</caption><thead><tr><th scope="col">Capability</th><th scope="col">Production staging</th><th scope="col">Education</th></tr></thead><tbody></tbody>';
-  for(const row of policy.features){const tr=document.createElement('tr');row.forEach((value,i)=>{const cell=document.createElement(i?'td':'th');if(!i)cell.scope='row';cell.textContent=value;tr.append(cell)});table.tBodies[0].append(tr)}$('comparison').append(table);
-}).catch(()=>{$('comparison').textContent='The comparison could not load. Please reload the page.'});
-update();
-initConcepts();
+async function showScene(name){const target=$(`[data-page="${route}"]`),hosts=[...target.querySelectorAll('.display-scene')];if(!hosts.length)return;const ticket=++token;try{const data=await result(name);if(ticket!==token)return;for(const v of views.values())v.dispose();views.clear();hosts.forEach((h,i)=>{if(data[i])views.set(h,new Display(h,data[i]));});target.dataset.loaded=name;}catch(e){target.querySelector('.display-help').textContent=e.message;console.error(e);}}
+let field='stacking',seg='all';
+function navigate(){const requested=location.hash.slice(1)||'explore';route=document.querySelector(`[data-page="${requested}"]`)?requested:'explore';token++;document.querySelectorAll('[data-page]').forEach(e=>e.hidden=e.dataset.page!==route);document.querySelectorAll('.nav a').forEach(a=>{if(a.hash==='#'+route)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});document.querySelectorAll('video').forEach(v=>{if(!tour||!v.closest('[data-page='+route+']'))v.pause();});if(['stackability','thickness','fields','segmentation'].includes(route))showScene(route==='fields'?'fields-'+field:route==='segmentation'?'segmentation-'+seg:route);document.title='STACK / '+(route==='explore'?'Explore and learn':route.replace(/^./,s=>s.toUpperCase()));window.__lightStatus=()=>({route,example:'Original elliptic canopy / ellipse dome',field,seg,scenes:views.size,loaded:$(`[data-page="${route}"]`).dataset.loaded});}
+window.addEventListener('hashchange',navigate);
+document.querySelectorAll('#fit-view').forEach(b=>b.onclick=()=>{for(const v of views.values())v.fit();});
+document.querySelectorAll('[data-field]').forEach(b=>b.onclick=()=>{field=b.dataset.field;document.querySelectorAll('[data-field]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));showScene('fields-'+field);});
+document.querySelectorAll('[data-segmentation]').forEach(b=>b.onclick=()=>{seg=b.dataset.segmentation;document.querySelectorAll('[data-segmentation]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));showScene('segmentation-'+seg);});
+const text=document.createElement('p');text.textContent='This light edition displays original research results. Specialist editing, method execution and calibrated fabrication are outside its public scope.';$('#comparison').before(text);
+fetch('comparison.json').then(r=>r.json()).then(p=>{const table=document.createElement('table');table.innerHTML='<thead><tr><th>Feature</th><th>Specialist / production release</th><th>Public / educational release</th></tr></thead>';const body=document.createElement('tbody');for(const row of p.features){const tr=document.createElement('tr');for(const value of row){const td=document.createElement('td');td.textContent=value;tr.append(td);}body.append(tr);}table.append(body);$('#comparison').replaceChildren(table);});
+const steps=[
+ ['stackability',5,'STACK studies geometry in two states at once: an assembled surface and a compact stack.'],
+ ['fields',5,'SINTEF studies the mathematics. Vector fields combine stackability tendency with structural and fabrication criteria.'],
+ ['segmentation',3,'Fields guide how the surface becomes curved parts.'],
+ ['design',4,'ZHA explores freeform stackability for architecture, engineering and construction. One dome links both configurations.'],
+ ['elastica',5,'DTU studies elastica: a moving elastic cutting curve sweeps a surface. This fit is approximate.'],
+ ['robotics',5,'SINTEF and ZHA explore collaborative robotics. Fabrication includes 3D printing, milling, hot-wire and elastica cutting.'],
+ ['software',3,'Explore educational Maya and Rhino tools, then read the research.']
+];
+let tour=false,paused=false,elapsed=0,last=0,step=-1;
+function tourStep(i){step=i;location.hash=steps[i][0];navigate();$('#tour-step').textContent=`30-SECOND CRASH COURSE / ${i+1} OF ${steps.length}`;$('#tour-caption').textContent=steps[i][2];window.scrollTo({top:0,behavior:'instant'});const video=$(`[data-page="${steps[i][0]}"] video`);if(video){video.currentTime=0;video.playbackRate=2.5;video.play().catch(()=>{});}}
+function tick(now){if(!tour)return;if(last&&!paused)elapsed+=(now-last)/1000;last=now;let sum=0,index=steps.length-1;for(let i=0;i<steps.length;i++){sum+=steps[i][1];if(elapsed<sum){index=i;break;}}if(index!==step)tourStep(index);if(elapsed>=30){tour=false;$('#tour-step').textContent='TOUR COMPLETE / KEEP EXPLORING';$('#tour-pause').hidden=true;return;}requestAnimationFrame(tick);}
+function start(){tour=true;paused=false;elapsed=0;last=0;step=-1;$('#guided-tour').hidden=false;$('#tour-pause').hidden=false;$('#tour-pause').textContent='Pause';tourStep(0);requestAnimationFrame(tick);}
+$('#start-tour').onclick=start;$('#tour-open').onclick=start;$('#tour-pause').onclick=()=>{paused=!paused;$('#tour-pause').textContent=paused?'Resume':'Pause';const video=$(`[data-page="${route}"] video`);if(video)paused?video.pause():video.play().catch(()=>{});};$('#tour-close').onclick=()=>{tour=false;$('#guided-tour').hidden=true;document.querySelectorAll('video').forEach(v=>v.pause());};document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(tour){tour=false;$('#guided-tour').hidden=true;}}));
+await new Promise(resolve=>{if(window.THREE?.OrbitControls)resolve();else window.addEventListener('load',resolve,{once:true});});navigate();
+
