@@ -1,7 +1,7 @@
 {
   "audit": "DPA1 / 25 September 2026",
   "production": "Production staging; temporary public access at the user's request",
-  "education": "Public light edition of the original visuals; one ellipse dome, precomputed display scenes and recorded original fabrication views",
+  "education": "Public light edition of the original visuals; one ellipse dome, precomputed scenes and baked 3D fabrication animations",
   "features": [
     [
       "Access",
@@ -36,12 +36,12 @@
     [
       "Elastica / robotic cutting",
       "Existing reduced studies; complete calibrated pipeline not bundled",
-      "Original fitted elastica sweep and ABB cell simulation as videos; no fitting, CAD, tracks or IK execution"
+      "Original fitted elastica sweep and ABB cell as baked 3D animations; orbit, zoom, spin, start/stop and seek; no fitting or IK execution"
     ],
     [
       "CAD interoperability / exports",
       "Existing OBJ, project and host workflows",
-      "View inspection and video playback; educational desktop packages; no portal CAD export"
+      "Interactive 3D view inspection and baked animation playback; educational desktop packages; no portal CAD export"
     ],
     [
       "Thickness / mould relationships",
@@ -61,7 +61,7 @@
     [
       "Method source / partner assets",
       "Full browser methods; development repositories remain private",
-      "Original curated graphics and selected display results only; protected solver code and cell CAD omitted"
+      "Original curated graphics, rounded display meshes and sampled visual poses; solver code, source CAD and executable robot instructions omitted"
     ],
     [
       "Intended use",

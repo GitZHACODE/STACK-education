@@ -1,11 +1,9 @@
 # STACK learning portal
 
-Portal version 0.3.0 · 6 October 2026
+Portal version 0.3.1 · 7 October 2026
 
 https://gitzhacode.github.io/STACK/
 
-Light edition of the original curated research visuals. One original elliptic canopy dome follows the studies. Precomputed display scenes support orbit / zoom and real overlay selection. The original elastica and ABB cell simulation are recorded videos, not live public solvers. A 30-second captioned tour connects geometry, fields, parts, fabrication and educational software. The original film, visual abstract and topic illustrations remain available.
+Original ellipse dome display studies. Elastica and robotics use baked 3D animations with orbit, zoom, spin, start/stop, reset and timeline seeking. They open stopped. Rounded render meshes and sampled visual states are included; source CAD, fitting/IK solvers and robot execution instructions are excluded. The 30-second guided tour plays the baked animations. The original project film remains in Further reading.
 
-Private method code, partner robot CAD, tracks, export and fitting engines are excluded. Desktop educational plugins remain version 0.1.0; production desktop plugins are untouched.
-
-Graphics runtime: Three.js and OrbitControls, MIT; license in vendor/THREE-LICENSE.txt.
+Educational desktop plugins remain 0.1.0. Graphics runtime: Three.js and OrbitControls, MIT; vendor/THREE-LICENSE.txt.
