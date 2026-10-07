@@ -16,7 +16,7 @@ async function showMotion(name){
  try{
   const key=name+'-motion-buffer';if(!cache.has(key))cache.set(key,fetch(`results/${name}-motion.bin`).then(r=>{if(!r.ok)throw Error('Animation poses could not load');return r.arrayBuffer();}));
   const [data,buffer]=await Promise.all([result(name+'-motion'),cache.get(key)]);if(ticket!==token)return;
-  const view=new MotionDisplay(host,data,buffer);views.set(host,view);if(tour&&!paused)view.play(true);
+  const view=new MotionDisplay(host,data,buffer);views.set(host,view);if(!tour||!paused)view.play(true);
   section.dataset.loaded=name+'-motion';section.querySelectorAll('[data-motion-control]').forEach(b=>b.disabled=false);
   help.textContent='Drag to orbit · scroll to zoom · Space to start / stop · arrow keys to orbit';
  }catch(e){if(ticket!==token)return;help.textContent='Could not load the animation. Reload this page to retry.';cache.delete(name+'-motion');cache.delete(name+'-motion-buffer');console.error(e);}
